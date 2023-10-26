@@ -1,0 +1,47 @@
+global:
+  name: consul
+  domain: consul
+  datacenter: dc1
+  image: hashicorp/consul-enterprise:1.16.2-ent                        
+  acls:
+    manageSystemACLs: true
+  tls:
+    enabled: true                        
+    httpsOnly: true                      
+  enableConsulNamespaces: true  
+  adminPartitions:
+    enabled: true
+    name: "default"
+  enterpriseLicense:
+    secretName: consul-ent-license
+    secretKey: key
+    enableLicenseAutoload: true
+server:
+  replicas: 1
+  bootstrapExpect: 1
+  connect: true
+dns:
+  enabled: true
+  enableRedirection: true
+client:
+  enabled: false
+  grpc: true
+ui:
+  enabled: true
+  service:
+    enabled: true
+    type: LoadBalancer
+connectInject:
+  enabled: true
+  default: false                 # Default
+  transparentProxy:
+    defaultEnabled: true         # Default
+  consulNamespaces:
+    mirroringK8S: true
+  cni:
+    enabled: true
+    logLevel: info
+    cniBinDir: /var/lib/cni/bin
+    cniNetDir: /etc/kubernetes/cni/net.d
+controller:       # Enabled CRDs
+  enabled: true
